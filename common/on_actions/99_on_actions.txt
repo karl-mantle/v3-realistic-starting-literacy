@@ -1,0 +1,620 @@
+﻿on_game_started = {
+	effect = {
+		# Memento Mori
+		every_country = {
+			every_interest_group = {
+				leader = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = memento_mori_immunity
+							}
+						}
+						set_variable = {
+							name = memento_mori_immunity
+							years = 5
+						}
+					}
+				}
+			}
+		}
+	}
+	# above is necessary from vanilla, on_game_started always overwrites
+	on_actions = {
+		calculate_literacy_rate_on_action
+	}
+}
+
+calculate_literacy_rate_on_action = {
+	effect = {
+		every_state = {
+			every_scope_pop = {
+				limit = { has_pop_religion = protestant }
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.6
+						if = {
+							limit = {
+								OR = {
+									is_pop_type = academics
+									is_pop_type = aristocrats
+									is_pop_type = bureaucrats
+									is_pop_type = capitalists
+									is_pop_type = clergymen
+									is_pop_type = engineers
+									is_pop_type = officers
+								}
+							}
+							add = 0.2
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = clerks
+									is_pop_type = soldiers
+									is_pop_type = shopkeepers
+								}
+							}
+							add = 0.1
+						}
+						else_if = {
+							limit = {
+								OR = {
+									AND = {
+										is_pop_type = laborers
+										NOT = { pop_employment_building_group = bg_manufacturing }
+									}
+									is_pop_type = peasants
+								}
+							}
+							add = -0.2
+						}
+						if = {
+							limit = {
+								OR = {
+									prev.owner = { capital.region = sr:region_baltic }
+									prev.owner = { capital.region = sr:region_rhine }
+									this.culture = cu:scottish
+								}
+							}
+							multiply = 1.4
+						}
+						if = {
+							limit = {
+								OR = {
+									prev.owner = { capital.region = sr:region_north_germany }
+									prev.owner = { capital.region = sr:region_south_germany }
+									prev.owner = c:SWI
+									this.culture = cu:yankee
+								}
+							}
+							multiply = 1.2
+						}
+						if = {
+							limit = {
+								NOT = { this.culture = { has_discrimination_trait = european_heritage } }
+							}
+							multiply = 0.5
+						}
+						if = {
+							limit = {
+								is_pop_type = slaves
+							}
+							multiply = 0.1
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = { has_pop_religion = catholic } 
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.2
+						if = {
+							limit = {
+								OR = {
+									is_pop_type = academics
+									is_pop_type = bureaucrats
+									is_pop_type = capitalists
+									is_pop_type = clergymen
+									is_pop_type = engineers
+									is_pop_type = officers
+								}
+							}
+							add = 0.6
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = aristocrats
+									is_pop_type = clerks
+									is_pop_type = shopkeepers
+								}
+							}
+							add = 0.3
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = farmers
+									AND = {
+										is_pop_type = laborers
+										pop_employment_building_group = bg_manufacturing
+									}
+									is_pop_type = machinists
+									is_pop_type = soldiers
+								}
+							}
+							add = 0.1
+						}
+						if = {
+							limit = {
+								OR = {
+									prev.owner = { capital.region = sr:region_rhine }
+									prev.owner = { capital.region = sr:region_north_germany }
+									prev.owner = c:SWI
+									this.culture = cu:french
+								}
+								NOT = {
+									this.culture = cu:polish
+								}
+							}
+							multiply = 2
+						}
+						if = {
+							limit = {
+								OR = {
+									prev.owner = { capital.region = sr:region_france }
+									prev.owner = { capital.region = sr:region_south_germany }
+									prev.owner = { capital.region = sr:region_occitania }
+									prev.owner = { capital.region = sr:region_italy }
+								}
+								OR = {
+									this.culture = cu:north_italian
+									this.culture = cu:francoprovencal
+									this.culture = cu:alemannic
+									this.culture = cu:north_german
+									this.culture = cu:south_german
+									this.culture = cu:czech
+									this.culture = cu:occitan
+								}
+							}
+							multiply = 1.5
+						}
+						if = {
+							limit = {
+								prev.owner = { country_is_in_americas = yes }
+								OR = {
+									this.culture = { has_discrimination_trait = lusophone }
+									this.culture = { has_discrimination_trait = hispanophone }
+								}
+								NOT = { this.culture = cu:caribeno }
+								NOT = { this.culture = cu:mexican }
+								NOT = { this.culture = cu:platinean }
+								NOT = { this.culture = cu:sulista }
+								NOT = { this.culture = cu:paulista }
+							}
+							multiply = 0.4
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = { 
+					OR = {
+						has_pop_religion = orthodox
+						has_pop_religion = oriental_orthodox
+					}
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.1
+						if = {
+							limit = {
+								OR = {
+									is_pop_type = academics
+									is_pop_type = clergymen
+									is_pop_type = engineers
+								}
+							}
+							add = 0.5
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = aristocrats
+									is_pop_type = bureaucrats
+									is_pop_type = capitalists
+									is_pop_type = clerks
+									is_pop_type = officers
+									is_pop_type = shopkeepers
+								}
+							}
+							add = 0.3
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = farmers
+									AND = {
+										is_pop_type = laborers
+										pop_employment_building_group = bg_manufacturing
+									}
+									is_pop_type = machinists
+									is_pop_type = soldiers
+								}
+							}
+							add = 0.1
+						}
+						if = {
+							limit = {
+								OR = {
+									this.culture = cu:greek
+									this.culture = cu:bulgarian
+								}
+							}
+							multiply = 2
+						}
+						if = {
+							limit = {
+								OR = {
+									this.culture = cu:georgian
+									this.culture = cu:armenian
+									this.culture = cu:assyrian
+								}
+							}
+							multiply = 1.5
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = { 
+					OR = {
+						has_pop_religion = sunni
+						has_pop_religion = shiite
+					}
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.1
+						if = {
+							limit = {
+								OR = {
+									is_pop_type = academics
+									is_pop_type = clergymen
+									is_pop_type = engineers
+								}
+							}
+							add = 0.6
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = aristocrats
+									is_pop_type = bureaucrats
+									is_pop_type = capitalists
+									is_pop_type = officers
+								}
+							}
+							add = 0.3
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = clerks
+									is_pop_type = farmers
+									AND = {
+										is_pop_type = laborers
+										pop_employment_building_group = bg_manufacturing
+									}
+									is_pop_type = machinists
+									is_pop_type = shopkeepers
+									is_pop_type = soldiers
+								}
+							}
+							add = 0.1
+						}
+						if = {
+							limit = {
+								OR = {
+									prev.owner = c:TUR
+									prev.owner = c:EGY
+								}
+								OR = {
+									this.culture = cu:turkish
+									this.culture = cu:misri
+									this.culture = cu:albanian
+									this.culture = cu:greek
+								}
+							}
+							multiply = 1.5
+						}
+						if = {
+							limit = {
+								OR = {
+									prev.owner = { capital.region = sr:region_north_africa }
+									prev.owner = { capital.region = sr:region_senegal }
+									prev.owner = { capital.region = sr:region_niger }
+								}
+								NOR = {
+									this.culture = cu:bedouin
+									this.culture = cu:maghrebi
+								}
+							}
+							multiply = 0.5
+						}
+						if = {
+							limit = {
+								has_pop_religion = shiite
+							}
+							multiply = 1.2
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = { has_pop_religion = jewish }
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.7
+						if = {
+							limit = {
+								OR = {
+									is_pop_type = academics
+									is_pop_type = aristocrats
+									is_pop_type = bureaucrats
+									is_pop_type = capitalists
+									is_pop_type = clergymen
+									is_pop_type = engineers
+									is_pop_type = officers
+								}
+							}
+							add = 0.2
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = clerks
+									is_pop_type = shopkeepers
+								}
+							}
+							add = 0.1
+						}
+						else_if = {
+							limit = {
+								OR = {
+									AND = {
+										is_pop_type = laborers
+										NOT = { pop_employment_building_group = bg_manufacturing }
+									}
+									is_pop_type = peasants
+								}
+							}
+							add = -0.2
+						}
+						if = {
+							limit = {
+								this.culture = cu:sephardic
+							}
+							multiply = 0.8
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = { 
+					OR = {
+						has_pop_religion = mahayana
+						has_pop_religion = confucian
+						has_pop_religion = shinto
+					}
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.1
+						if = {
+							limit = {
+								OR = {
+									is_pop_type = academics
+									is_pop_type = aristocrats
+									is_pop_type = bureaucrats
+									is_pop_type = engineers
+									is_pop_type = officers
+								}
+							}
+							add = 0.7
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = capitalists
+									is_pop_type = clergymen
+									is_pop_type = clerks
+									is_pop_type = shopkeepers
+								}
+							}
+							add = 0.4
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = farmers
+									AND = {
+										is_pop_type = laborers
+										pop_employment_building_group = bg_manufacturing
+									}
+									is_pop_type = machinists
+									is_pop_type = soldiers
+								}
+							}
+							add = 0.1
+						}
+						if = {
+							limit = {
+								this.culture = cu:japanese
+							}
+							multiply = 3.5
+						}
+						if = {
+							limit = {
+								prev.owner = { capital.region = sr:region_indochina }
+								NOT = { this.culture = { has_discrimination_trait = sinosphere } }
+							}
+							multiply = 0.8
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					has_pop_religion = hindu
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.05
+						if = {
+							limit = {
+								has_social_class = brahmins
+							}
+							add = 0.7
+						}
+						else_if = {
+							limit = {
+								OR = {
+									has_social_class = kshatriyas
+									has_social_class = vaishyas
+								}
+							}
+							add = 0.2
+						}
+						else_if = {
+							limit = {
+								has_social_class = shudras
+							}
+							add = 0.1
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = { 
+					OR = {
+						has_pop_religion = theravada
+						has_pop_religion = gelugpa
+						has_pop_religion = sikh
+						AND = {
+							prev.owner = c:BAL
+							has_pop_religion = hindu
+						}
+					}
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = 0.1
+						if = {
+							limit = {
+								OR = {
+									is_pop_type = academics
+									is_pop_type = aristocrats
+									is_pop_type = clergymen
+								}
+							}
+							add = 0.6
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = bureaucrats
+									is_pop_type = capitalists
+									is_pop_type = clerks
+									is_pop_type = engineers
+									is_pop_type = officers
+								}
+							}
+							add = 0.3
+						}
+						else_if = {
+							limit = {
+								OR = {
+									is_pop_type = farmers
+									AND = {
+										is_pop_type = laborers
+										pop_employment_building_group = bg_manufacturing
+									}
+									is_pop_type = machinists
+									is_pop_type = shopkeepers
+								}
+							}
+							add = 0.1
+						}
+						if = {
+							limit = {
+								OR = {
+									this.culture = cu:tibetan
+									this.culture = { has_discrimination_trait = burmese_language }
+									this.culture = { has_discrimination_trait = tai }
+								}
+							}
+							multiply = 1.5
+						}
+						if = {
+							limit = {
+								this.culture = cu:burmese
+							}
+							multiply = 2.2
+						}
+					}
+				}
+			}
+			every_scope_pop = {
+				limit = { has_pop_religion = animist }
+				set_pop_literacy = {
+					literacy_rate = 0
+				}
+			}
+		}
+		every_state = {
+			limit = {
+				is_coastal = yes
+				owner = c:CHI
+			}
+			every_scope_pop = {
+				set_pop_literacy = {
+					literacy_rate = {
+						value = this.literacy_rate
+						multiply = 1.5
+					}
+				}
+			}
+		}
+		every_state = {
+			limit = {
+				OR = {
+					owner = c:EGY
+					owner = c:FRA
+				}
+			}
+			every_scope_pop = {
+				limit = { is_pop_type = soldiers }
+				set_pop_literacy = {
+					literacy_rate = {
+						value = this.literacy_rate
+						if = {
+							limit = { this.literacy_rate < 0.8 }
+							value = 0.8
+						}
+					}
+				}
+			}
+		}
+		every_state = {
+			every_scope_pop = {
+				limit = { literacy_rate > 1 }
+				set_pop_literacy = {
+					literacy_rate = 1
+				}
+			}
+		}
+	}
+}

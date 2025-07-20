@@ -1,10 +1,10 @@
 {
-  "name" : "Calculate Literacy Rate",
-  "id" : "",
-  "version" : "1.0.0",
-  "supported_game_version" : "1.3.*",
+  "name" : "Realistic Starting Literacy",
+  "id" : "github.com.karl.mantle.v3.realistic.starting.literacy",
+  "version" : "2.0.0",
+  "supported_game_version" : "1.9.*",
   "short_description" : "A mod for Victoria 3 which changes the starting literacy rates to more appropriate levels.",
-  "tags" : [],
+  "tags" : ["fix"],
   "relationships" : [],
   "game_custom_data" : {
     "multiplayer_synchronized" : true

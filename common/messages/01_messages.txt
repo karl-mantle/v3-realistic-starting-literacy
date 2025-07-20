@@ -1,6 +1,0 @@
-﻿literacy_rate_calculated_notification = {
-	type = country
-	texture = "gfx/interface/icons/notification_icons/pops.dds"
-	notification_type = toast
-	days = 31
-}
